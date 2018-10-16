@@ -3,6 +3,9 @@
   tags:
     - smarthome
   roles:
-    - vagrant
     - molecule
+    - vagrant
+- hosts: vagrant
+  roles:
+    - openhab
 

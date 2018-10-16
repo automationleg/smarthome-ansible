@@ -1,0 +1,28 @@
+---
+- name: add APT key for openhab
+  apt_key:
+    url: https://bintray.com/user/downloadSubjectPublicKey?username=openhab
+    state: present
+  become: true
+
+- name: install https transport for APT
+  apt:
+    name: apt-transport-https
+    state: present
+  become: true
+
+- name: add openhab2 repository
+  apt_repository:
+    repo: deb https://dl.bintray.com/openhab/apt-repo2 stable main
+    state: present
+  become: true
+
+- name: install openhab2.2 release
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - openhab2=2.2.0-1
+    - openhab2-addons=2.2.0-1
+    update_cache: yes
+  become: true

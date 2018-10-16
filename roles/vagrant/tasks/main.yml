@@ -1,0 +1,31 @@
+---
+- name: Add 1st APT signing key for virtualbox
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox_2016.asc
+    state: present
+  become: true
+
+- name: Add 2nd APT signing key for virtualbox
+  apt_key:
+    url: https://www.virtualbox.org/download/oracle_vbox.asc
+    state: present
+  become: true
+
+- name: Add virtualbox repository
+  apt_repository:
+    repo: deb https://download.virtualbox.org/virtualbox/debian bionic contrib
+    state: present
+  become: true
+
+- name: install virtualbox and vagrant
+  apt: name="{{ packages }}" state=present update_cache=yes
+  vars:
+    packages:
+    - virtualbox
+    - vagrant
+  become: true
+
+- name: install python-vagrant
+  pip:
+    name: python-vagrant
+  become: true
