@@ -1,0 +1,7 @@
+---
+- name: install virtualbox and vagrant
+  apt: name="{{ item }}" state=present update_cache=yes
+  with_items:
+    - virtualbox
+    - vagrant
+  become: true

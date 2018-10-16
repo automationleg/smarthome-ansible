@@ -1,0 +1,33 @@
+---
+- name: install system tools 
+  apt: name="{{ packages }}" state=present update_cache=yes
+  vars:
+    packages:
+    - vim
+    - ansible
+    - build-essential
+    - python-pip
+    - python-dev
+    - sshpass
+  become: true
+
+- name: install molecule
+  pip: name="{{ item }}" state=present
+  vars:
+    item:
+    - molecule
+  become: true
+
+- name: Upgrade Asible package to the latest version
+  apt:
+    name: "ansible"
+    state: latest
+    update_cache: yes
+    only_upgrade: yes
+  become: true
+
+- name: set timezone to Europe/Warsaw
+  timezone:
+    name: Europe/Warsaw
+  become: true
+
