@@ -25,4 +25,12 @@
     - openhab2=2.2.0-1
     - openhab2-addons=2.2.0-1
     update_cache: yes
+    state: present
   become: true
+
+- name: add java8 repository
+  apt_repository:
+    repo: ppa:openjdk-r/ppa
+  become: true
+  notify: install java8
+

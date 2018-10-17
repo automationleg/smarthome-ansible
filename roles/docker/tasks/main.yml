@@ -1,0 +1,6 @@
+---
+- name: install docker from ubuntu repo - docker.io
+  apt:
+    name: docker.io
+    state: present
+  become: true

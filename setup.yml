@@ -8,4 +8,5 @@
 - hosts: vagrant
   roles:
     - openhab
+    - docker
 
