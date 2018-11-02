@@ -1,0 +1,36 @@
+---
+- name: Copy in the openhab backup file
+  copy:
+    src: "{{ item }}"
+    dest: "/tmp/openhab2-backup.zip"
+    owner: openhab
+    group: openhab
+    mode: 0644
+  with_fileglob:
+    - openhab2-backup*.zip
+  become: true
+
+- name: Stop service openhab2, if started
+  service:
+    name: openhab2
+    state: stopped
+  become: true
+
+- name: install pexpect package
+  pip:
+    name: pexpect
+    state: present
+  become: true
+
+- name: restore the configuration from backup
+  expect:
+    command: /usr/share/openhab2/runtime/bin/restore /tmp/openhab2-backup.zip
+    responses:
+      (?i)Okay to Continue?: "y"
+  become: true
+
+- name: start the OpenHAB service
+  service:
+    name: openhab2
+    state: started
+  become: true

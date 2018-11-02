@@ -5,8 +5,10 @@
   roles:
     - molecule
     - vagrant
+    - partition
 - hosts: vagrant
   roles:
+    - influxdb
     - openhab
     - docker
 

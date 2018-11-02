@@ -1,0 +1,8 @@
+---
+- name: Resize the logical volume to 25GB
+  lvol:
+    vg: ubuntu-vg
+    lv: ubuntu-lv
+    size: 25G
+    resizefs: true
+  become: true

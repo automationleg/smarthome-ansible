@@ -1,0 +1,19 @@
+---
+# Add apt keys
+  - name: add key for ppa python repository
+    apt_key: keyserver=keyserver.ubuntu.com id=DB82666C state=present
+    become: yes
+
+  - name: Add ppa python repository
+    apt_repository:
+      repo: ppa:deadsnakes/ppa
+      state: present
+    become: true
+
+# Update python version
+  - name: upgrade Python2.7
+    apt:
+      pkg: python2.7
+      state: present
+      update_cache: true
+    become: yes

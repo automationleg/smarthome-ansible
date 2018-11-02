@@ -1,0 +1,16 @@
+---
+- name: install unzip
+  apt:
+    name: unzip
+    state: present
+  become: true
+
+- name: update /etc/hosts file
+  blockinfile:
+    block: "{{ lookup('file', 'hosts') }}"
+    dest: "/etc/hosts"
+  become: true
+
+- name: set timezone to Europe/Warsaw
+  timezone:
+    name: Europe/Warsaw

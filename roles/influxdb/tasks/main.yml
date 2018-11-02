@@ -1,0 +1,100 @@
+---
+- name: add APT key for influxdb
+  apt_key:
+    url: https://repos.influxdata.com/influxdb.key
+    state: present
+  become: true
+
+- name: register distrib_id and linux codename variables
+  vars:
+    lsbfile: "{{ lookup('file', '/etc/lsb-release') }}"
+  set_fact:
+    distrib: "{{ lsbfile | regex_search('(?<=DISTRIB_ID=)\\w+') }}"
+    codename:  "{{ lsbfile | regex_search('(?<=DISTRIB_CODENAME=)\\w+') }}"
+
+
+- name: add influxdb repository
+  apt_repository:
+    repo: "deb https://repos.influxdata.com/{{ distrib | lower }} {{ codename }} stable"
+    filename: influxdb.list
+    state: present
+  become: true
+
+- name: Install InfluxDB packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - influxdb
+    update_cache: yes
+    state: present
+  become: true
+  notify: start influxDB service
+
+- name: Force notified handlers to run now before creating influxDB
+  meta: flush_handlers
+
+# required for influx client installation
+- name: Install python PIP
+  apt:
+    name: python-pip
+    state: present
+  become: true
+
+- name: Install influxDB Python client
+  pip:
+    name: influxdb
+  become: true
+
+- name: Create database for openhab2
+  influxdb_database:
+      hostname: "{{ ansible_hostname }}"
+      username: "{{ influxdb_admin_user }}"
+      password: "{{ influxdb_admin_password }}"
+      database_name: "{{ influxdb_database_name }}"
+
+- name: Create admin user with all privileges
+  vars:
+    user: "{{ influxdb_admin_user }}"
+  command: "influx -username {{ influxdb_admin_user }} -password {{ influxdb_admin_password }} -execute 'show users'"
+  register: users
+  changed_when: user not in users.stdout
+  notify: create admin user
+
+- name: Create openhab user using custom login credentials
+  influxdb_user:
+    username: "{{ influxdb_admin_user }}"
+    password: "{{ influxdb_admin_password }}"
+    user_name: "{{ influxdb_openhab_user }}"
+    user_password: "{{ influxdb_openhab_password }}"
+
+- name: Create grafana user using custom login credentials
+  influxdb_user:
+    username: "{{ influxdb_admin_user }}"
+    password: "{{ influxdb_admin_password }}"
+    user_name: "{{ influxdb_grafana_user }}"
+    user_password: "{{ influxdb_grafana_password }}"
+
+- name: Check grants were given to openhab user
+  vars:
+    db: "{{ influxdb_database_name }}"
+  command: "influx -username {{ influxdb_admin_user }} -password {{ influxdb_admin_password }} -execute 'show grants for openhab'"
+  register: grants_openhab
+  changed_when: "'db ALL PRIVILEGES' not in grants_openhab.stdout"
+  notify: grant permissions to openhab user
+
+- name: Check grants were given to grafana user
+  vars:
+    db: "{{ influxdb_database_name }}"
+  command: "influx -username {{ influxdb_admin_user }} -password {{ influxdb_admin_password }} -execute 'show grants for grafana'"
+  register: grants_grafana
+  changed_when: "'db READ' not in grants_grafana.stdout"
+  notify: grant permissions to grafana user
+
+- name: Modify InfluxDB config file
+  copy:
+    src: influxdb.conf
+    dest: /etc/influxdb/influxdb.conf
+  become: true
+  notify: restart influxDB service
+

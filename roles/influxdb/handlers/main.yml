@@ -1,0 +1,23 @@
+- name: create admin user
+  #  command: "influx  -execute 'CREATE USER adminkr WITH PASSWORD {{ influxdb_admin_password }} WITH ALL PRIVILEGES'"
+  influxdb_user:
+    username: "{{ influxdb_admin_user }}"
+    password: "{{ influxdb_admin_password }}"
+    user_name: "{{ influxdb_admin_user }}"
+    user_password: "{{ influxdb_admin_password }}"
+    admin: yes
+
+
+- name: grant permissions to openhab user
+  command: "influx -username {{ influxdb_admin_user }} -password {{ influxdb_admin_password }} -execute 'GRANT ALL ON openhab_db TO openhab'"
+
+- name: grant permissions to grafana user
+  command: "influx -username {{ influxdb_admin_user }} -password {{ influxdb_admin_password }} -execute 'GRANT READ ON openhab_db TO grafana'"
+
+- name: restart influxDB service
+  service: name=influxdb state=restarted
+  become: true
+
+- name: start influxDB service
+  service: name=influxdb state=started
+  become: true
