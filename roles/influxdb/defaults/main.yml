@@ -1,9 +1,0 @@
----
-influxdb_admin_user: adminkr
-influxdb_admin_password: SuperSecretPassword123
-influxdb_database_name: openhab_db
-influxdb_openhab_user: openhab
-influxdb_openhab_password: AnotherSuperbPassword456
-influxdb_grafana_user: grafana
-influxdb_grafana_password: PleaseLetMeRead789
-

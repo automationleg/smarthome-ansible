@@ -1,0 +1,51 @@
+# config file version
+apiVersion: 1
+
+# list of datasources that should be deleted from the database
+deleteDatasources:
+  - name: openhabstats
+    orgId: 1
+
+# list of datasources to insert/update depending
+# what's available in the database
+datasources:
+  # <string, required> name of the datasource. Required
+- name: {{ grafana_datasource_name }}
+  # <string, required> datasource type. Required
+  type: {{ grafana_ds_type }} 
+  # <string, required> access mode. proxy or direct (Server or Browser in the UI). Required
+  access: proxy
+  # <int> org id. will default to orgId 1 if not specified
+  orgId: {{ grafana_org_id }} 
+  # <string> url
+  url: https://localhost:8086 
+  # <string> database password, if used
+  password: {{ influxdb_openhab_password }} 
+  # <string> database user, if used
+  user: {{ influxdb_openhab_user }} 
+  # <string> database name, if used
+  database: {{ influxdb_database_name }} 
+  # <bool> enable/disable basic auth
+  basicAuth: false
+  # <string> basic auth username
+  basicAuthUser:
+  # <string> basic auth password
+  basicAuthPassword:
+  # <bool> enable/disable with credentials headers
+  withCredentials: true
+  # <bool> mark as default datasource. Max one per org
+  isDefault: false
+  # <map> fields that will be converted to json and stored in jsonData
+  jsonData:
+     tlsAuth: true
+     tlsAuthWithCACert: true
+     tlsSkipVerify: true
+  # <string> json object of data that will be encrypted.
+  secureJsonData:
+    tlsCACert: "..."
+    tlsClientCert: "..."
+    tlsClientKey: "..."
+  version: 1
+  # <bool> allow users to edit datasources from the UI.
+  editable: true
+

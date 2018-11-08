@@ -1,0 +1,29 @@
+---
+
+- name: Create influxdb.yaml datasource from template
+  template:
+    src: 'templates/{{ grafana_provisioning_influxdb_datasource_template }}'
+    dest: '{{ grafana_provisioning_influxdb_datasource }}'
+    owner: root
+    group: root
+    mode: 0775
+  tags:
+   - configure
+   - configure_datasource
+   - influxdb
+  become: true
+
+- name: restore dashbords from files
+  copy:
+    src: "{{ item }}"
+    dest: '{{ grafana_provisioning_dashboards }}'
+  with_fileglob:
+    - "*.json"
+  become: true
+
+- name: restore dashboard provisioning config file
+  copy:
+    src: mydashboards.yml
+    dest: '{{ grafana_provisioning_dashboards }}'
+  notify: restart grafana
+  become: true

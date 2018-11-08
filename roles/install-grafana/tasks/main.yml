@@ -1,0 +1,77 @@
+---
+
+#- name: Install docker.io
+#  apt:
+#    name: docker.io
+#    state: present
+#  tags:
+#   - docker_grafana
+#   - install
+#  become: true
+
+- name: Install Python2/pip2 dependencies
+  pip:
+    name: '{{ packages }}'
+    state: present
+    executable: pip2
+  vars:
+   packages:
+    - docker-py
+  tags:
+   - docker_grafana
+   - install
+  become: true
+
+- name: Enable and start docker service
+  systemd:
+    name: docker
+    enabled: yes
+    state: started
+  tags:
+   - docker_grafana
+   - install
+  become: true
+
+- name: Create grafana storage directory
+  file:
+   path: '{{ grafana_storage }}'
+   owner: root
+   group: root
+   mode: 0777
+   state: directory
+  tags:
+   - docker_grafana
+   - install
+  become: true
+
+
+- name: Create grafana provisioning datasources directory
+  file:
+   path: '{{ grafana_provisioning_datasources }}'
+   owner: root
+   group: root
+   mode: 0775
+   state: directory
+  tags:
+   - docker_grafana
+   - install
+  become: true
+
+- name: Create grafana provisioning dashboards directory
+  file:
+   path: '{{ grafana_provisioning_dashboards }}'
+   owner: root
+   group: root
+   mode: 0775
+   state: directory
+  tags:
+   - docker_grafana
+   - install
+  become: true
+
+- name: Check if grafana container is present
+  command: bash -c "docker ps"
+  register: container_state
+  changed_when: "'grafana' not in container_state.stdout"
+  notify: Run grafana docker
+  become: true

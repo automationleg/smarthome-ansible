@@ -1,0 +1,21 @@
+---
+- name: Stop service openhab2
+  service:
+    name: openhab2
+    state: stopped
+  listen: restore openhab2 from backup
+  become: true
+
+- name: restart service openhab2
+  service:
+    name: openhab2
+    state: restarted
+  become: true
+
+- name: restore the configuration from backup
+  expect:
+    command: /usr/share/openhab2/runtime/bin/restore /tmp/openhab2-backup.zip
+    responses:
+      (?i)Okay to Continue?: "y"
+  listen: restore openhab2 from backup
+  become: true
