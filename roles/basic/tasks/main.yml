@@ -1,7 +1,11 @@
 ---
-- name: install unzip
+- name: install packages
   apt:
-    name: unzip
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - unzip
+    - htop
     state: present
   become: true
 

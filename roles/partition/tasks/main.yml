@@ -6,3 +6,137 @@
     size: 25G
     resizefs: true
   become: true
+
+- name: create logical volume /home
+  lvol:
+    vg: ubuntu-vg
+    lv: home
+    size: 25G
+    resizefs: true
+  become: true
+
+- name: create logical volume /backup
+  lvol:
+    vg: ubuntu-vg
+    lv: backup
+    size: 30G
+    resizefs: true
+  become: true
+
+- name: create logical volume /smarthome
+  lvol:
+    vg: ubuntu-vg
+    lv: smarthome
+    size: 15G
+    resizefs: true
+  become: true
+
+- name: create logical volume /data
+  lvol:
+    vg: ubuntu-vg
+    lv: data
+    size: 50G
+    resizefs: true
+  become: true
+
+- name: create logical volume /streaming
+  lvol:
+    vg: ubuntu-vg
+    lv: streaming
+    size: 60G
+    resizefs: true
+  become: true
+
+- name: create logical volume /var
+  lvol:
+    vg: ubuntu-vg
+    lv: var
+    size: +100%FREE
+    resizefs: true
+  become: true
+
+- name: create file system for /home
+  filesystem:
+    fstype: ext4
+    dev: /dev/ubuntu-vg/home
+  become: true
+
+- name: create file system for /backup
+  filesystem:
+    fstype: ext4
+    dev: /dev/ubuntu-vg/backup
+  become: true
+
+- name: create file system for /smarthome
+  filesystem:
+    fstype: ext4
+    dev: /dev/ubuntu-vg/smarthome
+  become: true
+
+- name: create file system for /data
+  filesystem:
+    fstype: ext4
+    dev: /dev/ubuntu-vg/data
+  become: true
+
+- name: create file system for /streaming
+  filesystem:
+    fstype: ext4
+    dev: /dev/ubuntu-vg/streaming
+  become: true
+
+- name: create file system for /var
+  filesystem:
+    fstype: ext4
+    dev: /dev/ubuntu-vg/var
+  become: true
+
+- name: mount /home logical volume
+  mount:
+    name: /home
+    src: /dev/ubuntu-vg/home
+    fstype: ext4
+    state: mounted
+  become: true
+
+- name: mount /backup logical volume
+  mount:
+    name: /backup
+    src: /dev/ubuntu-vg/backup
+    fstype: ext4
+    state: mounted
+  become: true
+
+- name: mount /smarthome logical volume
+  mount:
+    name: /smarthome
+    src: /dev/ubuntu-vg/smarthome
+    fstype: ext4
+    state: mounted
+  become: true
+
+- name: mount /data logical volume
+  mount:
+    name: /data
+    src: /dev/ubuntu-vg/data
+    fstype: ext4
+    state: mounted
+  become: true
+
+- name: mount /streaming logical volume
+  mount:
+    name: /streaming
+    src: /dev/ubuntu-vg/streaming
+    fstype: ext4
+    state: mounted
+  become: true
+
+- name: mount /var logical volume
+  mount:
+    name: /var
+    src: /dev/ubuntu-vg/var
+    fstype: ext4
+    state: mounted
+  become: true
+
+

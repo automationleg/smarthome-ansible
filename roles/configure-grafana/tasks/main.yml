@@ -22,8 +22,8 @@
   become: true
 
 - name: restore dashboard provisioning config file
-  copy:
-    src: mydashboards.yml
-    dest: '{{ grafana_provisioning_dashboards }}'
+  template:
+    src: mydashboards.yml.j2
+    dest: '{{ grafana_provisioning_dashboards }}/mydashboards.yml'
   notify: restart grafana
   become: true

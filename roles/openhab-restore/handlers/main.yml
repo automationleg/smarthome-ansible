@@ -10,6 +10,7 @@
   service:
     name: openhab2
     state: restarted
+    enabled: yes
   become: true
 
 - name: restore the configuration from backup
@@ -19,3 +20,11 @@
       (?i)Okay to Continue?: "y"
   listen: restore openhab2 from backup
   become: true
+
+- name: update knx.cfg in openhab
+  template:
+    src: knx.cfg.j2
+    dest: /etc/openhab2/services/knx.cfg
+  listen: restore openhab2 from backup
+  become: true
+

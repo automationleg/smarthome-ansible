@@ -1,0 +1,60 @@
+---
+- name: Install Python2/pip2 dependencies
+  pip:
+    name: '{{ packages }}'
+    state: present
+    executable: pip2
+  vars:
+   packages:
+    - docker-py
+  tags:
+   - docker_zoneminder
+   - install
+  become: true
+
+- name: Create a zoneminder network
+  docker_network:
+    name: net
+  become: true
+
+- name: Check if mysql container is present
+  command: bash -c "docker ps"
+  register: container_state
+  changed_when: "'mysql' not in container_state.stdout"
+  notify: Run mysql docker
+  become: true
+
+- name: run mysql container handler if needed
+  meta: flush_handlers
+
+- name: wait for mysql container to be up
+  wait_for:
+    port: 8306
+    delay: 10
+
+- name: Check if zoneminder container is present
+  command: bash -c "docker ps"
+  register: container_state
+  changed_when: "'zoneminder' not in container_state.stdout"
+  notify: Run zoneminder docker
+  become: true
+
+- name: run zoneminder container handler if needed
+  meta: flush_handlers
+
+- name: wait for mysql container to be up
+  wait_for:
+    port: 8099
+    delay: 10
+
+- name: copy restore mysql file
+  copy:
+    src: backup.sql
+    dest: /tmp/backup.sql
+
+- name: check if zoneminder db was restored
+  command: bash -c "echo \"select count(*) from Monitors;\" |sudo docker exec -i db /usr/bin/mysql -u zmuser --password=zmpass zm"
+  register: restored
+  changed_when: "'0' in restored.stdout"
+  notify: restore zoneminder database
+  become: true

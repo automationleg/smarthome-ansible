@@ -1,0 +1,44 @@
+---
+- name: Run mysql docker
+  docker_container:
+    name: db
+    image: mysql/mysql-server:5.7
+    privileged: yes
+    restart_policy: on-failure
+    networks:
+      - name: net
+    state: started
+    ports:
+      - "8306:3306"
+    env:
+      TZ: Europe/Warsaw
+      MYSQL_USER: zmuser
+      MYSQL_PASSWORD: zmpass
+      MYSQL_DATABASE: zm
+      MYSQL_ROOT_PASSWORD: mysqlpsswd
+      MYSQL_ROOT_HOST: '%'
+  tags:
+   - docker_mysql
+  become: true
+
+- name: Run zoneminder docker
+  docker_container:
+    name: zm
+    image: quantumobject/docker-zoneminder
+    privileged: yes
+    restart_policy: on-failure
+    shm_size: 4096M
+    networks:
+      - name: net
+    state: started
+    ports:
+      - "8099:80"
+    env:
+      TZ: Europe/Warsaw
+      ZM_DB_HOST: db
+  tags:
+   - docker_zm
+  become: true
+
+- name: restore zoneminder database
+  command: bash -c "cat /tmp/backup.sql | sudo docker exec -i db /usr/bin/mysql -u root --password=mysqlpsswd zm"

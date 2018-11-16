@@ -15,9 +15,14 @@
   command: "influx -username {{ influxdb_admin_user }} -password {{ influxdb_admin_password }} -execute 'GRANT READ ON openhab_db TO grafana'"
 
 - name: restart influxDB service
-  service: name=influxdb state=restarted
+  service: 
+    name: influxdb
+    state: restarted
   become: true
 
 - name: start influxDB service
-  service: name=influxdb state=started
+  service: 
+    name: influxdb
+    state: started
+    enabled: yes
   become: true
