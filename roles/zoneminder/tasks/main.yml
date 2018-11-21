@@ -52,6 +52,14 @@
     src: backup.sql
     dest: /tmp/backup.sql
 
+- name: create zoneminder directory in /streaming
+  file: 
+    path: /streaming/zoneminder
+    state: directory
+    owner: krzysztof
+    group: krzysztof
+  become: true
+
 - name: check if zoneminder db was restored
   command: bash -c "echo \"select count(*) from Monitors;\" |sudo docker exec -i db /usr/bin/mysql -u zmuser --password=zmpass zm"
   register: restored

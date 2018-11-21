@@ -1,0 +1,13 @@
+V_getTempA_num|$1|$E1
+Vies_Temp_Zasilania_M1|$2|$E2
+Vies_Temp_Zasilania_M2|$3|$E3
+Vies_Temp_Goracej_Wody|$4|$E4
+Vies_Temp_Goracej_Wody2|$5|$E5
+Vies_Temp_Kotla|$6|$E6
+Vies_Starty_Kotla|$7|$E7
+Vies_Godziny_Kotla_1|$8|$E8
+Vies_Godziny_Kotla_2|$9|$E9
+Vies_Zuzycie_Decilitr|$10|$E10
+Vies_Zuzycie_Skumulowane|$11|$E11
+Vies_Przepustowosc|$12|$E12
+Vies_Tryb_Pracy|$13|$E13

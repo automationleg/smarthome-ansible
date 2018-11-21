@@ -1,0 +1,13 @@
+getTempA
+getTempVLsollM1
+getTempVLsollM2
+getTempWWist
+getTempWWsoll
+getTempKist
+getBrennerStarts
+getBrennerStunden1
+getBrennerStunden2
+getOeldurchsatz
+getOelverbrauch
+getDurchsatz
+getBetriebArt

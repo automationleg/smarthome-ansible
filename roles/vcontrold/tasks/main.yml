@@ -1,0 +1,94 @@
+- name: prepare needed folder
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: root
+    group: root
+    mode: 0750
+  with_items:
+    - '/etc/vcontrold/'
+    - "/var/log/vcontrold/"
+    - "/etc/heating_control"
+  become: true
+ 
+- name: install cmake and libxml2 packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+      - cmake
+      - libxml2-dev 
+    update_cache: yes
+    state: present
+  become: true
+
+- name: copy config and service
+  template:
+    src: "roles/vcontrold/templates{{item.path}}"
+    dest: "{{item.path}}"
+    owner: root
+    group: root
+    mode: "{{item.mode}}"
+  with_items:
+    - { mode: "u=rw,g=r,o=", path: "/etc/vcontrold/vcontrold.xml" }
+    - { mode: "u=rw,g=r,o=", path: "/etc/vcontrold/vito.xml" }
+    - { mode: "u=rw,g=r,o=r", path: "/etc/systemd/system/vcontrold.service" }
+  notify: "restart vcontrold"
+  become: true
+
+- name: "clone git"
+  git:
+    repo: 'https://github.com/openv/vcontrold.git'
+    dest: "{{data_dir}}/build/vcontrold"
+    version: 'master'
+  register: clone_status
+  become: true
+#- debug: msg={{clone_status}}
+
+- name: "create build dir"
+  file: 
+    path: "{{data_dir}}/build/vcontrold/build"
+    state: directory
+  register: build_status
+
+- name: check if vcontrold is already built
+  stat:
+    path: /usr/sbin/vcontrold
+  register: vcontrolbin
+  become: true
+
+- name: "install"
+  shell: '{{ item }}'
+  args:
+    chdir: "{{data_dir}}/build/vcontrold/build"
+  with_items:
+    - 'cmake .. -DMANPAGES=OFF'
+    - 'make'
+    - 'sudo make install'
+  notify: "restart vcontrold"
+  when: clone_status.changed or build_status.changed or vcontrolbin.stat.exists == False
+  become: true
+
+- name: copy cmd templates
+  template:
+    src: "roles/vcontrold/templates/etc/{{item}}"
+    dest: "/etc/{{item}}"
+    owner: root
+    group: root
+    mode: 0640
+  with_items:
+    - "heating_control/heating.cmd"
+    - "heating_control/heating.tpl"
+  become: true
+
+- name: copy cmd's
+  template:
+    src: "roles/vcontrold/templates/etc/{{item}}"
+    dest: "/etc/{{item}}"
+    owner: root
+    group: root
+    mode: 0750
+  with_items:
+    - "heating_control/heating.bash"
+    - "heating_control/heating_operation_mode.bash"
+  become: true

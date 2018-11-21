@@ -37,7 +37,7 @@
 # required for influx client installation
 - name: Install python PIP
   apt:
-    name: python-pip
+    name: python3-pip
     state: present
   become: true
 

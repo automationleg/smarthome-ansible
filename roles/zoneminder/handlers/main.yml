@@ -36,6 +36,8 @@
     env:
       TZ: Europe/Warsaw
       ZM_DB_HOST: db
+    volumes:
+      - /streaming/zoneminder:/var/cache/zoneminder:rw
   tags:
    - docker_zm
   become: true

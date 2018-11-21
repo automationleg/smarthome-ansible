@@ -1,0 +1,7 @@
+- name: restart vcontrold
+  service:
+    name: vcontrold
+    state: started
+    enabled: yes
+  listen: "restart vcontrold"
+  become: true
