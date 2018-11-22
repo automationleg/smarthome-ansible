@@ -4,7 +4,7 @@ Description=VitoControl Daemon
 [Service]
 Type=forking
 GuessMainPID=yes
-ExecStart=/usr/sbin/vcontrold
+ExecStart=/usr/local/sbin/vcontrold
 ExecStop=/usr/bin/kill -SIGKILL $MAINPID
 User=root
 Group=root

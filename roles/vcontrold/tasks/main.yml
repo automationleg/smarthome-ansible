@@ -8,18 +8,46 @@
   with_items:
     - '/etc/vcontrold/'
     - "/var/log/vcontrold/"
-    - "/etc/heating_control"
+    # - "/etc/heating_control"
   become: true
- 
-- name: install cmake and libxml2 packages
+
+- name: prepare scripts folder
+  file:
+    path: "{{item}}"
+    state: directory
+    owner: openhab
+    group: openhab
+    mode: 0755
+  with_items:
+    - '/etc/openhab2/scripts'
+    - "/etc/openhab2/scripts/viessmann"
+  become: true
+
+- name: collect value of uname -r for usb package install
+  command: bash -c "uname -r"
+  register: uname 
+  changed_when: false
+
+- name: install required packages
   apt:
     name: "{{ packages }}"
   vars:
     packages:
       - cmake
       - libxml2-dev 
+      - "linux-image-extra-{{uname.stdout_lines | list | join('')}}"
     update_cache: yes
     state: present
+  become: true
+
+- name: check if ttyUSB0 device is present
+  command: bash -c "ls -1 /dev/tty*"
+  register: devices
+  become: true
+
+- name: trigger reload of ttyUSB0 device
+  command: udevadm trigger
+  when: "'ttyUSB0' not in devices.stdout"
   become: true
 
 - name: copy config and service
@@ -33,7 +61,7 @@
     - { mode: "u=rw,g=r,o=", path: "/etc/vcontrold/vcontrold.xml" }
     - { mode: "u=rw,g=r,o=", path: "/etc/vcontrold/vito.xml" }
     - { mode: "u=rw,g=r,o=r", path: "/etc/systemd/system/vcontrold.service" }
-  notify: "restart vcontrold"
+  # notify: "restart vcontrold"
   become: true
 
 - name: "clone git"
@@ -69,26 +97,26 @@
   when: clone_status.changed or build_status.changed or vcontrolbin.stat.exists == False
   become: true
 
-- name: copy cmd templates
+- name: copy heating command templates
   template:
-    src: "roles/vcontrold/templates/etc/{{item}}"
-    dest: "/etc/{{item}}"
-    owner: root
-    group: root
-    mode: 0640
+    src: "roles/vcontrold/templates/etc/heating_control/{{item}}"
+    dest: "/etc/openhab2/scripts/viessmann/{{item}}"
+    owner: openhab
+    group: openhab
+    mode: 0644
   with_items:
-    - "heating_control/heating.cmd"
-    - "heating_control/heating.tpl"
+    - "heating.cmd"
+    - "heating.tpl"
   become: true
 
-- name: copy cmd's
+- name: copy heating scripts
   template:
-    src: "roles/vcontrold/templates/etc/{{item}}"
-    dest: "/etc/{{item}}"
-    owner: root
-    group: root
-    mode: 0750
+    src: "roles/vcontrold/templates/etc/heating_control/{{item}}"
+    dest: "/etc/openhab2/scripts/viessmann/{{item}}"
+    owner: openhab
+    group: openhab
+    mode: 0755
   with_items:
-    - "heating_control/heating.bash"
-    - "heating_control/heating_operation_mode.bash"
+    - "heating.bash"
+    - "heating_operation_mode.bash"
   become: true

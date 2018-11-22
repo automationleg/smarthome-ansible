@@ -1,13 +1,9 @@
 ---
-- hosts: smarthome
-  tags:
-    - smarthome
+- hosts: asrock
   roles:
-    - molecule
-    - vagrant
-    - partition
-    - zoneminder
-- hosts: openhab
+    - role: basic
+    - role: vagrant
+- hosts: vagrant
   roles:
     - role: basic
     - role: openhab

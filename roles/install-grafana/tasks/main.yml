@@ -1,19 +1,9 @@
 ---
-
-#- name: Install docker.io
-#  apt:
-#    name: docker.io
-#    state: present
-#  tags:
-#   - docker_grafana
-#   - install
-#  become: true
-
-- name: Install Python2/pip2 dependencies
+- name: Install Python3/pip3 dependencies
   pip:
     name: '{{ packages }}'
     state: present
-    executable: pip2
+    executable: pip3
   vars:
    packages:
     - docker-py

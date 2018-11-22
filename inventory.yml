@@ -1,8 +1,10 @@
-smarthome:
+asrock:
   hosts:
     krzysr:
       ansible_host: 192.168.1.22
+      ansible_ssh_user: krzysztof
 vagrant:
   hosts:
     openhab:
+      ansible_ssh_user: openhab
 

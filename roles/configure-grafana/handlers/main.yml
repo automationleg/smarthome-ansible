@@ -2,6 +2,21 @@
 - name: restart grafana
   docker_container:
     name: grafana
+    image: grafana/grafana
+    privileged: yes
+    restart_policy: unless-stopped
+    network_mode: host
     restart: yes
     state: started
+    ports:
+      - '{{ grafana_docker_exposed_ports }}'
+    volumes:
+      - '{{ grafana_storage }}:{{ grafana_storage }}'
+      - '{{ grafana_provisioning }}:{{ grafana_docker_provisioning }}'
+    env:
+      GF_SECURITY_ADMIN_PASSWORD: '{{ grafana_password }}'
+  tags:
+   - docker_grafana
+   - install
   become: true
+

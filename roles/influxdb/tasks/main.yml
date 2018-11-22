@@ -46,12 +46,22 @@
     name: influxdb
   become: true
 
-- name: Create database for openhab2
-  influxdb_database:
-      hostname: "{{ ansible_hostname }}"
-      username: "{{ influxdb_admin_user }}"
-      password: "{{ influxdb_admin_password }}"
-      database_name: "{{ influxdb_database_name }}"
+  #- name: Create database for openhab2
+  #  influxdb_database:
+  #      hostname: "{{ ansible_hostname }}"
+  #      username: "{{ influxdb_admin_user }}"
+  #      password: "{{ influxdb_admin_password }}"
+  #      database_name: "{{ influxdb_database_name }}"
+
+- name: check if openhab database exists
+  command: "influx -username {{ influxdb_admin_user }} -password {{ influxdb_admin_password }} -execute 'show databases'"
+  register: db
+  # changed_when: "'openhab_db' not in db.stdout"
+  changed_when: false
+
+- name: restore database
+  command: "influxd restore -portable -db openhab_db /vagrant_data/backups/influxdb"
+  when: "'openhab_db' not in db.stdout"
 
 - name: Create admin user with all privileges
   vars:

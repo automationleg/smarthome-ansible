@@ -6,10 +6,10 @@
   listen: restore openhab2 from backup
   become: true
 
-- name: restart service openhab2
+- name: start service openhab2
   service:
     name: openhab2
-    state: restarted
+    state: started
     enabled: yes
   become: true
 

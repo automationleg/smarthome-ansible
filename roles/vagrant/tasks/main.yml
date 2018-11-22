@@ -29,3 +29,11 @@
   pip:
     name: python-vagrant
   become: true
+
+- name: copy vagrant init file to start openhabvm on boot
+  copy:
+    src: vagrant-openhab.conf
+    dest: /etc/init/vagrant-openhab.conf
+    owner: root
+    group: root
+  become: true

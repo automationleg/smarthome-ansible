@@ -16,7 +16,7 @@ log()
           echo "[`date +%Y-%m-%d\ %H:%M:%S`] $1" >>$logfile
 }
 
-    RESULT=`/usr/bin/vclient -h 127.0.0.1:3002 -f $SCRIPT_PATH/heating.cmd -t $SCRIPT_PATH/heating.tpl 2>&1`
+    RESULT=`/usr/local/bin/vclient -h 127.0.0.1:3002 -f $SCRIPT_PATH/heating.cmd -t $SCRIPT_PATH/heating.tpl 2>&1`
 
     CODE=${PIPESTATUS[0]}
 
