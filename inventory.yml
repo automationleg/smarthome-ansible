@@ -6,5 +6,6 @@ asrock:
 vagrant:
   hosts:
     openhab:
+      ansible_host: 192.168.1.23
       ansible_ssh_user: openhab
 

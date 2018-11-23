@@ -1,1 +1,1 @@
-ansible-playbook -i inventory.yml -u vagrant setup-vagrant.yml
+ansible-playbook -i inventory.yml -e 'ansible_python_interpreter=/usr/bin/python3' -u vagrant setup-vagrant.yml
