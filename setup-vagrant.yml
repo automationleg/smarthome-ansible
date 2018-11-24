@@ -3,6 +3,7 @@
   roles:
     - role: basic
     - role: vagrant
+    - role: zoneminder
 - hosts: vagrant
   roles:
     - role: basic

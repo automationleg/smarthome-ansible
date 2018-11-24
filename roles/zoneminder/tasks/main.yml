@@ -3,7 +3,7 @@
   pip:
     name: '{{ packages }}'
     state: present
-    executable: pip2
+    executable: pip
   vars:
    packages:
     - docker-py
@@ -32,6 +32,9 @@
     port: 8306
     delay: 10
 
+- pause:
+    seconds: 40
+
 - name: Check if zoneminder container is present
   command: bash -c "docker ps"
   register: container_state
@@ -42,10 +45,13 @@
 - name: run zoneminder container handler if needed
   meta: flush_handlers
 
-- name: wait for mysql container to be up
+- name: wait for zoneminder container to be up
   wait_for:
     port: 8099
     delay: 10
+
+- pause:
+    seconds: 30
 
 - name: copy restore mysql file
   copy:

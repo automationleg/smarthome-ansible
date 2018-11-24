@@ -4,7 +4,7 @@
     name: db
     image: mysql/mysql-server:5.7
     privileged: yes
-    restart_policy: unless-stopped
+    restart_policy: on-failure
     networks:
       - name: net
     state: started
@@ -26,8 +26,8 @@
     name: zm
     image: quantumobject/docker-zoneminder
     privileged: yes
-    restart_policy: unless-stopped
-    shm_size: 4096M
+    restart_policy: on-failure
+    shm_size: 4096m
     networks:
       - name: net
     state: started
@@ -36,8 +36,6 @@
     env:
       TZ: Europe/Warsaw
       ZM_DB_HOST: db
-    volumes:
-      - /streaming/zoneminder:/var/cache/zoneminder:rw
   tags:
    - docker_zm
   become: true
