@@ -1,1 +1,1 @@
-ansible-playbook --key-file /home/krzysztof/.ssh/id_rsa -i inventory.yml -u krzysztof setup.yml
+ansible-playbook -i inventory.yml -e 'ansible_python_interpreter=/usr/bin/python3' setup.yml

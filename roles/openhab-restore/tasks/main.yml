@@ -7,7 +7,7 @@
     group: openhab
     mode: 0644
   with_fileglob:
-    - openhab2-backup*.zip
+    - "{{ openhab_backup }}/openhab2-backup*.zip"
   become: true
 
 - name: install pexpect package

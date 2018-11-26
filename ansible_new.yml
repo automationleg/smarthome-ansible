@@ -1,1 +1,0 @@
-ansible-playbook --key-file ~/.ssh/id_rsa -i inventory.yml -e 'ansible_python_interpreter=/usr/bin/python3' setup-vagrant.yml

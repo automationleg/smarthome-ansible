@@ -18,7 +18,7 @@
 
 - name: update /etc/hosts file
   blockinfile:
-    block: "{{ lookup('file', 'hosts') }}"
+    block: "{{ lookup('file', backup_directory+'/basic/hosts') }}"
     dest: "/etc/hosts"
   become: true
 

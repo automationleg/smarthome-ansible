@@ -59,6 +59,15 @@
   # changed_when: "'openhab_db' not in db.stdout"
   changed_when: false
 
+- name: copy influxdb backup files to restore in vm
+  copy:
+    src: "{{ influxdb_backup_dir }}/{{ item }}"
+    dest: /vagrant_data/backups/influxdb
+  with_fileglob:
+    - "*.tar.gz"
+    - "*.meta"
+    - "*.manifest"
+
 - name: restore database
   command: "influxd restore -portable -db openhab_db /vagrant_data/backups/influxdb"
   when: "'openhab_db' not in db.stdout"

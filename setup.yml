@@ -1,19 +1,18 @@
 ---
-- hosts: smarthome
-  tags:
-    - smarthome
+- hosts: all
+  roles:
+    - basic
+    - docker-install
+- hosts: asrock
   roles:
     - molecule
     - vagrant
     - partition
     - zoneminder
-- hosts: openhab
+- hosts: vagrant
   roles:
-    - role: basic
     - role: openhab
-    - role: docker-install
     - role: influxdb
-    # - role: openhab-config
     - role: openhab-restore
     - role: install-grafana
     - role: configure-grafana

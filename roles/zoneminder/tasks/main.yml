@@ -55,7 +55,7 @@
 
 - name: copy restore mysql file
   copy:
-    src: backup.sql
+    src: "{{ zoneminder_backup }}/backup.sql"
     dest: /tmp/backup.sql
 
 - name: create zoneminder directory in /streaming

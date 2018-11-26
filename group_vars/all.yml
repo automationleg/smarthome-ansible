@@ -1,0 +1,6 @@
+---
+# directories with backups to be restored
+backup_directory: "/home/krzysztof/smarthome-devops/oh-data"
+influxdb_backup_dir: "{{ backup_directory }}/influxdb_backup"
+openhab_backup: "{{ backup_directory }}/openhab2backup"
+zoneminder_backup: "{{ backup_directory }}/zoneminder/mysql_backup"
