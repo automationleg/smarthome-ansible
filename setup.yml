@@ -5,11 +5,14 @@
     - docker-install
 - hosts: asrock
   roles:
+    - nameserver
     - molecule
     - vagrant
     - partition
     - zoneminder
 - hosts: vagrant
+  vars_files:
+    - ~/smarthome-devops/oh-data/secrets/secrets.yml
   roles:
     - role: openhab
     - role: influxdb
