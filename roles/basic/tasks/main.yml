@@ -13,6 +13,8 @@
     packages:
     - unzip
     - htop
+    - nmap
+    - hping3
     state: present
   become: true
 

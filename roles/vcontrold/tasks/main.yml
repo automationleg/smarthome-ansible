@@ -52,15 +52,15 @@
 
 - name: copy config and service
   template:
-    src: "roles/vcontrold/templates{{item.path}}"
-    dest: "{{item.path}}"
+    src: "{{item.src}}"
+    dest: "{{item.dest}}"
     owner: root
     group: root
     mode: "{{item.mode}}"
   with_items:
-    - { mode: "u=rw,g=r,o=", path: "/etc/vcontrold/vcontrold.xml" }
-    - { mode: "u=rw,g=r,o=", path: "/etc/vcontrold/vito.xml" }
-    - { mode: "u=rw,g=r,o=r", path: "/etc/systemd/system/vcontrold.service" }
+    - { src: "etc/vcontrold/vcontrold.xml", mode: "u=rw,g=r,o=", dest: "/etc/vcontrold/vcontrold.xml" }
+    - { src: "etc/vcontrold/vito.xml", mode: "u=rw,g=r,o=", dest: "/etc/vcontrold/vito.xml" }
+    - { src: "etc/systemd/system/vcontrold.service", mode: "u=rw,g=r,o=r", dest: "/etc/systemd/system/vcontrold.service" }
   # notify: "restart vcontrold"
   become: true
 

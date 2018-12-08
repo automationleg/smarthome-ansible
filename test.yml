@@ -1,0 +1,8 @@
+---
+- hosts: testvm
+  vars_files:
+    - ~/smarthome-devops/oh-data/secrets/secrets.yml
+  roles:
+    - role: openhab
+    - role: openhab-restore
+
