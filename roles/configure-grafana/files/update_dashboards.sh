@@ -1,7 +1,7 @@
 #!/bin/bash
 
-for file in `ls -1`
+for file in `ls -1 *.json`
 do
-  sudo sed -i 's/openhab_dom/openhab_dom/g' $file
+  sudo sed -i 's/${DS_OPENHAB_DOM}/openhab_dom/g' $file
 done
 

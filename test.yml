@@ -3,6 +3,8 @@
   vars_files:
     - ~/smarthome-devops/oh-data/secrets/secrets.yml
   roles:
+    - role: basic
+    - role: docker-install
     - role: openhab
+    - role: influxdb
     - role: openhab-restore
-

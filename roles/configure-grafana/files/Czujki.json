@@ -59,7 +59,7 @@
       "bars": true,
       "dashLength": 10,
       "dashes": false,
-      "datasource": "${DS_OPENHAB_DOM}",
+      "datasource": "openhab_dom",
       "fill": 1,
       "gridPos": {
         "h": 7,
