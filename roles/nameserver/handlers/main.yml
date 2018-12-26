@@ -1,0 +1,5 @@
+---
+- name: update resolvconf
+  command: resolvconf -u
+  become: true
+

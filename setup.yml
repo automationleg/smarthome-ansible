@@ -3,9 +3,9 @@
   roles:
     - basic
     - docker-install
+    - nameserver
 - hosts: asrock
   roles:
-    - nameserver
     - molecule
     - vagrant
     - partition

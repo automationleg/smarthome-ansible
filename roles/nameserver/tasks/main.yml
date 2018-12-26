@@ -4,3 +4,12 @@
     src: resolv.conf
     dest: /etc/resolv.conf
   become: true
+
+- name: set nameserver for ubuntu16.04
+  copy:
+    src: tail
+    dest: /etc/resolvconf/resolv.conf.d/tail
+  when: ansible_distribution_release is match ("xenial")
+  become: true
+  notify: update resolvconf
+
