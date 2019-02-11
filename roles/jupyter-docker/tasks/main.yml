@@ -1,0 +1,7 @@
+---
+- name: Check if jupyter container is present
+  command: bash -c "docker ps"
+  register: container_state
+  changed_when: "'jupyter' not in container_state.stdout"
+  notify: Run jupyter docker
+  become: true
