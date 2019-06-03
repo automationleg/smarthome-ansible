@@ -8,6 +8,7 @@
   roles:
     - molecule
     - vagrant
+    - routes
     - partition
     - zoneminder
 - hosts: vagrant
