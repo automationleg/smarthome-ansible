@@ -11,3 +11,4 @@ vagrant:
 testvms:
   hosts:
     testvm:
+    openhabknx2test:
