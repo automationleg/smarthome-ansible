@@ -1,0 +1,7 @@
+---
+- name: pull latest version of openhab config from bitbucket
+  git:
+    repo: git@bitbucket.org:krzysztof_rrr/openhab-smarthome.git
+    dest: /etc/openhab2
+    force: yes
+  become: true
