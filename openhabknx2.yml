@@ -8,3 +8,8 @@
     - role: openhab
     - role: influxdb
     - role: openhab-restore
+    - role: openhab-git
+    - role: install-grafana
+    - role: configure-grafana
+    - role: vcontrold
+

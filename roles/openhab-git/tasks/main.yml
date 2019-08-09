@@ -1,7 +1,41 @@
 ---
+- name: remove old openhab2 config files and directories under /etc/openhab2 
+  file:
+    state: "{{ item }}"
+    path: "/etc/openhab2/"
+    owner: openhab  # set your owner, group, and mode accordingly
+    group: openhab
+    mode: '0755'
+  with_items:
+    - absent
+    - directory
+  become: true
+
+- name: recreate openhab2 folder
+  file:
+    state: directory
+    path: "/etc/openhab2"
+    owner: vagrant  # set your owner, group, and mode accordingly
+    group: vagrant
+    mode: '0755'
+  become: true
+
+  # - name: disable host key checking before clone
+  # command: bash -c "echo -e \"Host github.com\n\tStrictHostKeyChecking no\n\" >> ~/.ssh/config"
+  # become: true
+
 - name: pull latest version of openhab config from bitbucket
   git:
     repo: git@bitbucket.org:krzysztof_rrr/openhab-smarthome.git
     dest: /etc/openhab2
     force: yes
+    version: KNX2_Migration
+    accept_hostkey: yes
+
+- name: set owner and group to openhab for all the files
+  file:
+    dest: /etc/openhab2
+    owner: openhab
+    group: openhab
+    recurse: yes
   become: true

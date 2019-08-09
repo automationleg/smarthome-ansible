@@ -35,7 +35,7 @@
     packages:
       - cmake
       - libxml2-dev 
-      - "linux-image-extra-{{uname.stdout_lines | list | join('')}}"
+      - "linux-image-{{uname.stdout_lines | list | join('')}}"
     update_cache: yes
     state: present
   become: true
