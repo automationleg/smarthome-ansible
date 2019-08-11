@@ -5,9 +5,15 @@
     state: present
   become: true
 
-- name: add openhab2 repository
+- name: add openhab2 stable repository
   apt_repository:
     repo: deb https://dl.bintray.com/openhab/apt-repo2 stable main
+    state: present
+  become: true
+
+- name: add openhab2 testing repository
+  apt_repository:
+    repo: deb https://openhab.jfrog.io/openhab/openhab-linuxpkg testing main
     state: present
   become: true
 
