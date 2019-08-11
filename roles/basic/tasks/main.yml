@@ -24,6 +24,14 @@
     dest: "/etc/hosts"
   become: true
 
+- name: add openhab ip address to /etc/hosts file
+  vars:
+    ip_addr: "{{ openhab_ip_addr }}"
+  blockinfile:
+    block: "{{ ip_addr }}    openhab"
+    dest: "/etc/hosts"
+  become: true
+
 - name: set timezone to Europe/Warsaw
   timezone:
     name: Europe/Warsaw
