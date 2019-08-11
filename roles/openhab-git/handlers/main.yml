@@ -1,0 +1,8 @@
+---
+- name: start service openhab2
+  service:
+    name: openhab2
+    state: started
+    enabled: yes
+  become: true
+

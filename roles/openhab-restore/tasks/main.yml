@@ -33,6 +33,5 @@
   template:
     src: influxdb.cfg.j2
     dest: /etc/openhab2/services/influxdb.cfg
-  notify: start service openhab2
   become: true
 

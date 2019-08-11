@@ -38,6 +38,7 @@
     force: yes
     version: KNX2_Migration
     accept_hostkey: yes
+  notify: start service openhab2
 
 - name: set owner and group to openhab for all the files
   file:
