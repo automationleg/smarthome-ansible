@@ -22,14 +22,14 @@
   blockinfile:
     block: "{{ lookup('file', backup_directory+'/basic/hosts') }}"
     dest: "/etc/hosts"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK hosts add"
   become: true
 
 - name: add openhab ip address to /etc/hosts file
-  vars:
-    ip_addr: "{{ openhab_ip_addr }}"
   blockinfile:
-    block: "{{ ip_addr }}    openhab"
+    block: "{{ openhab_ip_addr }}    openhab"
     dest: "/etc/hosts"
+    marker: "# {mark} ANSIBLE MANAGED BLOCK openhab add"
   become: true
 
 - name: set timezone to Europe/Warsaw
