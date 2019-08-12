@@ -17,7 +17,7 @@
     state: present
   become: true
 
-- name: install openhab2.2 release
+- name: install openhab2.4 release
   apt:
     name: "{{ packages }}"
   vars:
