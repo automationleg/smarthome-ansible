@@ -2,14 +2,12 @@ asrock:
   hosts:
     krzysr:
       ansible_host: 192.168.1.22
-      ansible_ssh_user: krzysztof
+      ansible_user: krzysztof
 vagrant:
   hosts:
     openhab:
-      # ansible_host: 192.168.1.23
-      ansible_ssh_user: vagrant
+      ansible_user: vagrant
     openhabknx2test:
-      ansible_ssh_user: vagrant
-testvms:
-  hosts:
+      ansible_user: vagrant
     testvm:
+      ansible_user: vagrant

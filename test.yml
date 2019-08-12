@@ -4,7 +4,13 @@
     - ~/smarthome-devops/oh-data/secrets/secrets.yml
   roles:
     - role: basic
+    - role: nameserver
     - role: docker-install
     - role: openhab
     - role: influxdb
     - role: openhab-restore
+    - role: openhab-git
+    - role: install-grafana
+    - role: configure-grafana
+    - role: vcontrold
+
