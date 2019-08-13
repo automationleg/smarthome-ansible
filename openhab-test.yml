@@ -1,5 +1,5 @@
 ---
-- hosts: testvm
+- hosts: openhab-test
   vars_files:
     - ~/smarthome-devops/oh-data/secrets/secrets.yml
   roles:

@@ -9,5 +9,5 @@ vagrant:
       ansible_user: vagrant
     openhabknx2test:
       ansible_user: vagrant
-    testvm:
+    openhab-test:
       ansible_user: vagrant
