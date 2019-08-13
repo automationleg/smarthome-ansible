@@ -99,7 +99,7 @@
 
 - name: copy heating command templates
   template:
-    src: "roles/vcontrold/templates/etc/heating_control/{{item}}"
+    src: "etc/heating_control/{{item}}"
     dest: "/etc/openhab2/scripts/viessmann/{{item}}"
     owner: openhab
     group: openhab
@@ -111,7 +111,7 @@
 
 - name: copy heating scripts
   template:
-    src: "roles/vcontrold/templates/etc/heating_control/{{item}}"
+    src: "etc/heating_control/{{item}}"
     dest: "/etc/openhab2/scripts/viessmann/{{item}}"
     owner: openhab
     group: openhab
