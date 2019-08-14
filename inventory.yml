@@ -5,7 +5,7 @@ asrock:
       ansible_user: krzysztof
 vagrant:
   hosts:
-    openhab:
+    openhab-prod:
       ansible_user: vagrant
     openhabknx2test:
       ansible_user: vagrant

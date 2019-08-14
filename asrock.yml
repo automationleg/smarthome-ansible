@@ -1,0 +1,13 @@
+---
+- hosts: all
+  roles:
+    - basic
+    - docker-install
+    - nameserver
+- hosts: asrock
+  roles:
+    - molecule
+    - vagrant
+    - routes
+    - partition
+    - zoneminder

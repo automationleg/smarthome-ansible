@@ -13,3 +13,7 @@ esac
 
 
 ansible-playbook -i inventory.yml -e 'ansible_python_interpreter=/usr/bin/python3' openhab-$1.yml
+
+echo "Executing tests against openhab-$1 vm instance:"
+cd ../tests 
+molecule verify -s openhab-$1
