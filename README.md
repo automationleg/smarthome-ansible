@@ -10,7 +10,7 @@ The installation is done in 2 steps for each piece:
 
 ## Getting Started
 
-### Prerequisites
+### Backup of existing openhab infrastracture
 
 Roles included in the playbook use backup files that have been already taken from server to be migrated.
 Execute the backups by using the following scripts and tutorials:
@@ -31,8 +31,43 @@ example:
 sudo docker exec db /usr/bin/mysqldump -u user --password=pass zm > backup.sql
 ```
 
-There is also secrets.yml file(not included in this repo) with defined credential variables that need to be filled with your own users/passwords for those apps.
+### Create secrets file with passwords for grafana and influxdb
+Required `secrets.yml` file(not included in this repo) with defined with environment specific credentials for selected apps.
+
+Example content of the `secrets.yml` file:
+```
+---
+# influxdb credentials
+influxdb_admin_user: influx_user
+influxdb_admin_password: influx_password
+influxdb_database_name: openhab_database
+influxdb_openhab_user: openhab
+influxdb_openhab_password: openhab123
+influxdb_grafana_user: grafana
+influxdb_grafana_password: grafana123
+influxdb_username: "{{ influxdb_openhab_user }}"
+influxdb_password: "{{ influxdb_openhab_password }}"
+
+# grafana credentials
+grafana_user: admin
+grafana_password: admin123
+
+# nginx password
+nginx_passwd: nginx_password
+
+```
 remaining packages will get installed by executing selected roles
+### Copy backup files and secret file to predefined locations
+Copy backup files and set correct paths in the `./group_vars/all.yml` file.
+Example content:
+```
+# directories with backups to be restored
+backup_directory: "~/smarthome-devops/oh-data"
+influxdb_backup_dir: "{{ backup_directory }}/influxdb_backup"
+openhab_backup: "{{ backup_directory }}/openhab2backup"
+zoneminder_backup: "{{ backup_directory }}/zoneminder/mysql_backup"
+secrets_directory: "{{ backup_directory }}/secrets"
+```
 
 ### Installation
 
@@ -75,7 +110,6 @@ Start the VM
 vagrant up
 ```
 
-
 5. Provision the vm with ansible roles for the selected environment(test or prod)
 ```
 ./provision_openhab_vm.sh [test|prod]
@@ -84,6 +118,10 @@ example:
 ```
 ./provision_openhab_vm.sh test
 ```
+## Testing
+
+## Roles included in repo
+
 
 
 

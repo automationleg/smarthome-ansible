@@ -1,6 +1,6 @@
 ---
 # vagrant hostname
-vmhostname: openhabknx2test
+vmhostname: openhab-prod
 
 # Grafana Variables
 grafana_storage: /var/lib/grafana
