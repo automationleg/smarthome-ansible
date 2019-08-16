@@ -62,7 +62,7 @@ Copy backup files and set correct paths in the `./group_vars/all.yml` file.
 Example content:
 ```
 # directories with backups to be restored
-backup_directory: "~/smarthome-devops/oh-data"
+backup_directory: "~/openhab-smarthome-server/oh-data"
 influxdb_backup_dir: "{{ backup_directory }}/influxdb_backup"
 openhab_backup: "{{ backup_directory }}/openhab2backup"
 zoneminder_backup: "{{ backup_directory }}/zoneminder/mysql_backup"
