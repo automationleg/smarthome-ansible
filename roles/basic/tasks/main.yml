@@ -15,6 +15,7 @@
     - htop
     - nmap
     - hping3
+    - zip
     state: present
   become: true
 
