@@ -27,12 +27,14 @@
     image: quantumobject/docker-zoneminder
     privileged: yes
     restart_policy: on-failure
-    shm_size: 4096m
+    shm_size: 8192m
     networks:
       - name: net
     state: started
     ports:
       - "8099:80"
+    volumes:
+      - '/cams:/recordings'
     env:
       TZ: Europe/Warsaw
       ZM_DB_HOST: db
