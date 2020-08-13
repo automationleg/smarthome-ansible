@@ -71,24 +71,25 @@
   when: "'openhab_db' not in db.stdout"
 
 - name: Create admin user with all privileges
-  vars:
-    user: "{{ influxdb_admin_user }}"
-  command: "influx -username {{ influxdb_admin_user }} -password {{ influxdb_admin_password }} -execute 'show users'"
-  register: users
-  changed_when: user not in users.stdout
-  notify: create admin user
+  influxdb_user:
+    user_name: "{{ influxdb_admin_user }}"
+    user_password: "{{ influxdb_admin_password }}"
+    login_username: "{{ influxdb_admin_user }}"
+    login_password: "{{ influxdb_admin_password }}"    
+    hostname: "{{ ansible_hostname }}"
+    admin: yes
 
 - name: Create openhab user using custom login credentials
   influxdb_user:
-    username: "{{ influxdb_admin_user }}"
-    password: "{{ influxdb_admin_password }}"
+    login_username: "{{ influxdb_admin_user }}"
+    login_password: "{{ influxdb_admin_password }}"
     user_name: "{{ influxdb_openhab_user }}"
     user_password: "{{ influxdb_openhab_password }}"
 
 - name: Create grafana user using custom login credentials
   influxdb_user:
-    username: "{{ influxdb_admin_user }}"
-    password: "{{ influxdb_admin_password }}"
+    login_username: "{{ influxdb_admin_user }}"
+    login_password: "{{ influxdb_admin_password }}"
     user_name: "{{ influxdb_grafana_user }}"
     user_password: "{{ influxdb_grafana_password }}"
 

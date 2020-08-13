@@ -1,12 +1,3 @@
-- name: create admin user
-  #  command: "influx  -execute 'CREATE USER adminkr WITH PASSWORD {{ influxdb_admin_password }} WITH ALL PRIVILEGES'"
-  influxdb_user:
-    username: "{{ influxdb_admin_user }}"
-    password: "{{ influxdb_admin_password }}"
-    user_name: "{{ influxdb_admin_user }}"
-    user_password: "{{ influxdb_admin_password }}"
-    admin: yes
-
 
 - name: grant permissions to openhab user
   command: "influx -username {{ influxdb_admin_user }} -password {{ influxdb_admin_password }} -execute 'GRANT ALL ON openhab_db TO openhab'"
