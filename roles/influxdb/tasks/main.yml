@@ -18,6 +18,7 @@
     repo: "deb https://repos.influxdata.com/{{ distrib | lower }} {{ codename }} stable"
     filename: influxdb.list
     state: present
+    mode: 0666
   become: true
 
 - name: Install InfluxDB packages

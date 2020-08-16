@@ -9,6 +9,7 @@
   copy:
     src: tail
     dest: /etc/resolvconf/resolv.conf.d/tail
+    mode: 0666
   when: ansible_distribution_release is match ("xenial")
   become: true
   notify: update resolvconf

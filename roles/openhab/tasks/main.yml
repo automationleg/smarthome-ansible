@@ -9,12 +9,14 @@
   apt_repository:
     repo: deb https://dl.bintray.com/openhab/apt-repo2 stable main
     state: present
+    mode: 0666
   become: true
 
 - name: add openhab2 testing repository
   apt_repository:
     repo: deb https://openhab.jfrog.io/openhab/openhab-linuxpkg testing main
     state: present
+    mode: 0666    
   become: true
 
 - name: install openhab2.4 release
@@ -31,6 +33,7 @@
 - name: add java8 repository
   apt_repository:
     repo: ppa:openjdk-r/ppa
+    mode: 0666
   become: true
   notify: install java8
 

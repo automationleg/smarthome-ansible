@@ -92,7 +92,7 @@
   with_items:
     - 'cmake .. -DMANPAGES=OFF'
     - 'make'
-    - 'sudo make install'
+    - 'make install'
   notify: "restart vcontrold"
   when: clone_status.changed or build_status.changed or vcontrolbin.stat.exists == False
   become: true
