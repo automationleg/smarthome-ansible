@@ -4,7 +4,6 @@
     name: grafana
     image: grafana/grafana
     privileged: yes
-    restart_policy: unless-stopped
     network_mode: host
     restart: yes
     state: started

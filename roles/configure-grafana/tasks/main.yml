@@ -17,6 +17,7 @@
   copy:
     src: "{{ item }}"
     dest: '{{ grafana_provisioning_dashboards }}'
+    mode: 0666
   with_fileglob:
     - "*.json"
   become: true
@@ -25,5 +26,6 @@
   template:
     src: mydashboards.yml.j2
     dest: '{{ grafana_provisioning_dashboards }}/mydashboards.yml'
+    mode: 0666
   notify: restart grafana
   become: true
