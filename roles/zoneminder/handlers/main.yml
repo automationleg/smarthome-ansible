@@ -34,7 +34,7 @@
     ports:
       - "8099:80"
     volumes:
-      - '/cams:/recordings'
+      - '/zm_linkstation:/events'
     env:
       TZ: Europe/Warsaw
       ZM_DB_HOST: db

@@ -1,9 +1,9 @@
 ---
-- name: Install Python2/pip2 dependencies
+- name: Install Python3/pip3 dependencies
   pip:
     name: '{{ packages }}'
     state: present
-    executable: pip
+    executable: pip3
   vars:
    packages:
     - docker-py
