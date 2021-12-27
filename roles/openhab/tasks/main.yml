@@ -1,13 +1,13 @@
 ---
 - name: add APT key for openhab
   apt_key:
-    url: https://bintray.com/user/downloadSubjectPublicKey?username=openhab
+    url: https://openhab.jfrog.io/artifactory/api/gpg/key/public
     state: present
   become: true
 
 - name: add openhab2 stable repository
   apt_repository:
-    repo: deb https://dl.bintray.com/openhab/apt-repo2 stable main
+    repo: deb https://openhab.jfrog.io/artifactory/openhab-linuxpkg stable main
     state: present
     mode: 0666
   become: true
@@ -19,13 +19,13 @@
     mode: 0666    
   become: true
 
-- name: install openhab2.4 release
+- name: install openhab2.5 release
   apt:
     name: "{{ packages }}"
   vars:
     packages:
-    - openhab2=2.4.0-1
-    - openhab2-addons=2.4.0-1
+    - openhab2=2.5.3-1
+    - openhab2-addons=2.5.3-1
     update_cache: yes
     state: present
   become: true
