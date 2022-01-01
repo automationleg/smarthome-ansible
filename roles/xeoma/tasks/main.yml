@@ -1,4 +1,12 @@
 ---
+- name: Create directory to store xeoma recordings locally
+  file:
+    path: /data/archive
+    state: directory
+    owner: krzysztof
+    group: krzysztof
+  become: true
+
 - name: Run xeoma docker
   docker_container:
     name: Xeoma
@@ -18,3 +26,26 @@
    - docker_xeoma
    - install
 
+- name: create /cam_recordings dir for camera streams
+  file:
+    path: /cam_recordings
+    state: directory
+    owner: krzysztof
+    group: krzysztof
+  become: true
+
+- name: Mount up buffalo /cam_recordings share
+  mount:
+    path: /cam_recordings
+    src: //192.168.1.19/cam_capture
+    fstype: cifs
+    opts: 'username=xeoma,password={{ xeoma_password }},uid=1000,gid=1000,vers=1.0'
+    state: mounted
+  become: true
+
+- name: Ensure files recorded are synced to Buffalo NAS every 2min
+  cron:
+    name: "sync recordings"
+    minute: "*/2"
+    job: "rsync -av --min-size=10 --include '*.mkv' --include '*.db*' /data/archive/ /cam_recordings/archive/"
+  become: true
