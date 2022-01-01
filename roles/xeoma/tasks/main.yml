@@ -1,0 +1,20 @@
+---
+- name: Run xeoma docker
+  docker_container:
+    name: Xeoma
+    image: automationleg/xeoma
+    restart_policy: on-failure
+    state: started
+    ports:
+      - '8090:8090'
+      - '10090:10090'
+    volumes:
+      - '/data/archive:/archive'
+      - '/home/krzysztof/projects/xeoma/config:/config'
+    env:
+      VERSION: '21.11.18'
+      PASSWORD: '{{ xeoma_password }}'
+  tags:
+   - docker_xeoma
+   - install
+

@@ -5,9 +5,12 @@
     - docker-install
     - nameserver
 - hosts: asrock
+  vars_files:
+    - ~/openhab-smarthome-server/oh-data/secrets/secrets.yml
+  connection: local
   roles:
     - molecule
     - vagrant
     - routes
     - partition
-    - zoneminder
+    - xeoma

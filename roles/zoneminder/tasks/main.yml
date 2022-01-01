@@ -58,9 +58,9 @@
     src: "{{ zoneminder_backup }}/backup.sql"
     dest: /tmp/backup.sql
 
-- name: create zoneminder directory in /streaming
+- name: create zoneminder directory in /images
   file: 
-    path: /streaming/zoneminder
+    path: /images/zoneminder
     state: directory
     owner: krzysztof
     group: krzysztof
