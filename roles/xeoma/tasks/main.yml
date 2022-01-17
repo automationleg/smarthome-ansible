@@ -49,3 +49,10 @@
     minute: "*/2"
     job: "rsync -av --min-size=10 --include '*.mkv' --include '*.db*' /data/archive/ /cam_recordings/archive/"
   become: true
+
+- name: Ensure files stored to Buffalo NAS older than 7 days are removed daily
+  cron:
+    name: "delete recordings older than 7 days"
+    hour: "10"
+    job: "find /cam_recordings/archive/* -mtime +7 -type d -exec rm -rf {} \\;"
+  become: true
