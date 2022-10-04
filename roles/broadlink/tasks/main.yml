@@ -1,0 +1,35 @@
+---
+- name: Clone a broadlink-mqtt repo
+  git:
+    repo: https://github.com/eschava/broadlink-mqtt.git
+    dest: /home/krzysztof/smarthome/broadlink-mqtt
+    clone: yes
+    update: yes
+
+- name: copy custom.conf
+  copy:
+    src: conf/custom.conf
+    dest: /home/krzysztof/smarthome/broadlink-mqtt
+
+- name: copy Dockerfile
+  copy:
+    src: conf/Dockerfile
+    dest: /home/krzysztof/smarthome/broadlink-mqtt
+
+- name: copy commands
+  copy:
+    src: commands/
+    dest: /home/krzysztof/smarthome/broadlink-mqtt/commands/
+
+- name: Build image from Dockerfile
+  community.docker.docker_image:
+    name: broadlink-mqtt
+    build:
+      path: /home/krzysztof/smarthome/broadlink-mqtt
+    source: build
+
+- name: Check if broadlink-mqtt docker present
+  command: bash -c "docker ps"
+  register: container_state
+  changed_when: "'broadlink-ir' not in container_state.stdout"
+  notify: Run broadlink-mqtt docker

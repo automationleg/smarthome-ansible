@@ -1,0 +1,9 @@
+---
+
+- name: Run broadlink-mqtt docker
+  docker_container:
+    name: broadlink-ir
+    image: broadlink-mqtt
+    restart_policy: on-failure
+    state: started
+    network_mode: host
