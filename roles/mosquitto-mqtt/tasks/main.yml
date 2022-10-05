@@ -1,0 +1,16 @@
+---
+- name: Install mosquitto packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - mosquitto
+    state: present
+  become: true
+
+- name: start mosquitto service
+  service: 
+    name: mosquitto
+    state: started
+    enabled: yes
+  become: true
