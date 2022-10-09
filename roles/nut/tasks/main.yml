@@ -1,0 +1,35 @@
+---
+
+- name: install nut packages
+  apt:
+    name: "{{ packages }}"
+  vars:
+    packages:
+    - nut
+    state: present
+  become: true
+
+- name: copy config files
+  copy:
+    src: "{{ item }}"
+    dest: /etc/nut/
+  with_items:
+    - nut.conf
+    - ups.conf
+    - upsmon.conf
+  become: yes
+
+- name: copy upsd.users with pass
+  copy:
+    src: "{{ item }}"
+    dest: /etc/nut/
+    group:
+  with_items:
+    - upsd.users
+  become: yes
+
+- name: copy and setup upsd.conf
+  template:
+    src: upsd.conf
+    dest: /etc/nut/upsd.conf
+  become: yes
