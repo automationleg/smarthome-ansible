@@ -16,6 +16,10 @@ RUN pip install -r /opt/broadlink-mqtt/requirements.txt
 
 # add user mqttwarn to image
 RUN groupadd -r broadlink && useradd -r -g broadlink broadlink
+
+# finally, copy the current code (ideally we'd copy only what we need, but it
+#  is not clear what that is, yet)
+COPY . /opt/broadlink-mqtt
 RUN chown -R broadlink:broadlink /opt/broadlink-mqtt
 RUN chown -R broadlink:broadlink /var/log/broadlink
 #RUN chown -R broadlink /home/broadlink
@@ -23,19 +27,15 @@ RUN chown -R broadlink:broadlink /var/log/broadlink
 # process run as mqttwarn user
 USER broadlink
 
-# conf file from host
-VOLUME ["/opt/broadlink-mqtt/"]
+# # conf file from host
+# VOLUME ["/opt/broadlink-mqtt/"]
 
-# commands dir
-VOLUME ["/opt/broadlink-mqtt/commands/"]
+# # commands dir
+# VOLUME ["/opt/broadlink-mqtt/commands/"]
 
 # set conf path
 ENV BROADLINKMQTTCONFIG="/opt/broadlink-mqtt/mqtt.conf"
 ENV BROADLINKMQTTCONFIGCUSTOM="/opt/broadlink-mqtt/custom.conf"
-
-# finally, copy the current code (ideally we'd copy only what we need, but it
-#  is not clear what that is, yet)
-COPY . /opt/broadlink-mqtt
 
 # run process
 CMD python mqtt.py

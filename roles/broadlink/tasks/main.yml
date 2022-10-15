@@ -4,6 +4,7 @@
     repo: https://github.com/eschava/broadlink-mqtt.git
     dest: /home/krzysztof/smarthome/broadlink-mqtt
     clone: yes
+    force: yes
     update: yes
 
 - name: copy custom.conf
